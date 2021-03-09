@@ -50,7 +50,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: release_${{ github.sha }}
-          release_name: Release ${{ github.ref }}
+          release_name: Release ${{ github.sha }}
           body: |
             Deployed to IPFS
             - HASH: ${{ steps.ipfs.outputs.hash }}
