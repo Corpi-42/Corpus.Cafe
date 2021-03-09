@@ -19,7 +19,8 @@ jobs:
 
       # Pin the built site to ipfs-cluster, output the cid as `steps.ipfs.outputs.cid`
       # see: https://github.com/ipfs-shipyard/ipfs-github-action
-      - uses: aquiladev/ipfs-action@v0.1.5
+      - name: Deploy to IPFS
+        uses: aquiladev/ipfs-action@v0.1.5
         id: ipfs
         with:
           path: public
@@ -30,3 +31,20 @@ jobs:
       
       - run: echo /ipfs/${{ steps.ipfs.outputs.hash }}
       - run: echo ${{ github.ref }}
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Deployed to IPFS
+            HASH: ${{ steps.ipfs.outputs.hash }}
+            Links
+            - IPFSio: http://ipfs.io/ipfs/${{ steps.ipfs.outputs.hash }}
+            - Pinata: https://gateway.pinata.cloud/ipfs/${{ steps.ipfs.outputs.hash }}
+          draft: false
+          prerelease: false
+      
