@@ -42,6 +42,7 @@ jobs:
           body: |
             Deployed to IPFS
             - HASH: ${{ steps.ipfs.outputs.hash }}
+            
             Links
             - IPFSio: http://ipfs.io/ipfs/${{ steps.ipfs.outputs.hash }}
             - Pinata: https://gateway.pinata.cloud/ipfs/${{ steps.ipfs.outputs.hash }}
