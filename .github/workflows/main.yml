@@ -1,0 +1,34 @@
+# Deploy to IPFS
+name: CI
+
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Pin the built site to ipfs-cluster, output the cid as `steps.ipfs.outputs.cid`
+      # see: https://github.com/ipfs-shipyard/ipfs-github-action
+      - uses: ipfs-shipyard/ipfs-github-action@v1.0.0
+        id: ipfs
+        with:
+          path_to_add: public
+          cluster_host: /dnsaddr/cluster.ipfs.io
+          cluster_user: ${{ secrets.CLUSTER_USER }}
+          cluster_password: ${{ secrets.CLUSTER_PASSWORD }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - run: echo /ipfs/${{ steps.ipfs.outputs.cid }}
+      - run: echo ${{ steps.ipfs.outputs.url }}
+      - run: echo ${{ github.ref }}
