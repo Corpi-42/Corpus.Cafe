@@ -32,16 +32,16 @@ jobs:
       - run: echo /ipfs/${{ steps.ipfs.outputs.hash }}
       - run: echo ${{ github.ref }}
           
-      - name: Update CloudFlare DNS Records
-        uses: xorilog/cloudflare-dns-action@1.0.0
+      - name: Update DNSLink
+        uses: textileio/cloudflare-update-dnslink@master
+        id: dnslink
         env:
-          RECORD_DOMAIN: corpus.cafe
-          RECORD_TYPE: TXT
-          RECORD_VALUE: dnslink=/ipfs/${{ steps.ipfs.outputs.hash }}
-          RECORD_NAME: _dnslink
-          RECORD_TTL: 1
-          CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
+          RECORD_DOMAIN: 'corpus.cafe'
+          RECORD_NAME: '_dnslink.corpus.cafe'
           CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
+          CLOUDFLARE_TOKEN_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONEID }}
+        with:
+          cid: ${{ steps.ipfs.outputs.hash }}
       
       - name: Create Release
         id: create_release
