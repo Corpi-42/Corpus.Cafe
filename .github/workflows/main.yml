@@ -26,6 +26,7 @@ jobs:
           service: pinata
           pinataKey: ${{ secrets.PINATA_KEY }}
           pinataSecret: ${{ secrets.PINATA_SECRET }}
+          pinataPinName: Corpus.Cafe-GitHub
       
       - run: echo /ipfs/${{ steps.ipfs.outputs.hash }}
       - run: echo ${{ github.ref }}
