@@ -43,21 +43,21 @@ jobs:
         with:
           cid: ${{ steps.ipfs.outputs.hash }}
       
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: release_${{ github.sha }}
-          release_name: Release ${{ github.sha }}
-          body: |
-            Deployed to IPFS
-            - HASH: ${{ steps.ipfs.outputs.hash }}
-            
-            Links
-            - IPFSio: http://ipfs.io/ipfs/${{ steps.ipfs.outputs.hash }}
-            - Pinata: https://gateway.pinata.cloud/ipfs/${{ steps.ipfs.outputs.hash }}
-          draft: false
-          prerelease: false
+      #- name: Create Release
+      #  id: create_release
+      #  uses: actions/create-release@v1
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #  with:
+      #    tag_name: release_${{ github.sha }}
+      #    release_name: Release ${{ github.sha }}
+      #    body: |
+      #      Deployed to IPFS
+      #      - HASH: ${{ steps.ipfs.outputs.hash }}
+      #      
+      #      Links
+      #      - IPFSio: http://ipfs.io/ipfs/${{ steps.ipfs.outputs.hash }}
+      #      - Pinata: https://gateway.pinata.cloud/ipfs/${{ steps.ipfs.outputs.hash }}
+      #    draft: false
+      #    prerelease: false
       
